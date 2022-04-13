@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fist Game</title>
+</head>
+
+<body>
+    <center>
+        <canvas width="600" height="400"></canvas></center>
+    <script>
+        var canvas = document.querySelector("canvas");
+        var pincel = canvas.getContext("2d");
+        var raio = 10;
+
+        pincel.fillStyle = "lightgrey";
+        pincel.fillRect(0, 0, 600, 400);
+
+        function limpaTela() {
+            pincel.clearRect(0, 0, 600, 400);
+            pincel.fillStyle = "lightgrey";
+            pincel.fillRect(0, 0, 600, 400);
+        }
+
+        function desenhaCirculo(x, y, cor, raio) {
+            pincel.fillStyle = cor;
+            pincel.beginPath();
+            pincel.arc(x, y, raio, 0, 2 * Math.PI);
+            pincel.fill();
+        }
+
+        function desenhaAlvo(x, y) {
+            desenhaCirculo(x, y, "red", raio + 20);
+            desenhaCirculo(x, y, "white", raio + 10);
+            desenhaCirculo(x, y, "red", raio);
+        }
+
+        function posicaoAleatoria(maximo) {
+            return Math.floor(Math.random() * maximo);
+            desenhaAlvo();
+        }
+        var x;
+        var y;
+
+        function atualiza() {
+            limpaTela();
+            x = posicaoAleatoria(600 - 20);
+            y = posicaoAleatoria(400 - 20);
+            desenhaAlvo(x, y);
+        }
+
+        function dispara(evento) {
+            var xAux = evento.pageX - canvas.offsetLeft;
+            var yAux = evento.pageY - canvas.offsetTop;
+
+            if (xAux > x - raio && xAux < x + raio && yAux > y - raio && yAux < y + raio) {
+                alert("ACERTOU!!");
+            }
+        }
+
+        setInterval(atualiza, 600);
+        canvas.onclick = dispara;
+    </script>
+</body>
+
+</html>
